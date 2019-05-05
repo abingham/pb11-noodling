@@ -59,6 +59,8 @@ PYBIND11_MODULE(_zivid, m) {
         m, "Application",
         "An application...")
         .def(py::init<>())
+
+        // Keep Application alive as long as Iterator is alive
         .def("__iter__", [](const Application& a) { return py::make_iterator(a.begin(), a.end()); },
                          py::keep_alive<0, 1>())
         ;
@@ -66,6 +68,8 @@ PYBIND11_MODULE(_zivid, m) {
     py::class_<Camera>(
         m, "Camera",
         "A camera...")
+
+        // Keep Application alive as long as Camera is alive.
         .def(py::init<Application&>(),  py::keep_alive<1, 2>())
         .def("data", &data)
         ;
